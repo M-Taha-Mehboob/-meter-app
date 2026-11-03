@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "@fontsource-variable/outfit";
+@import "@fontsource/share-tech-mono";
+
+/*
+ * Look: a utility meter's display. Cool slate surfaces, and the numbers that matter sit on a dark
+ * "LCD" panel with glowing segment-style digits in the accent colour (amber by default, like a
+ * meter's backlight). Each category has its own colour: Bijli amber, Gas flame blue, Pani cyan.
+ *
+ * Theme = mode (data-theme="light" | "dark" on <html>) x accent (data-accent on <html>).
+ * Components use only the semantic tokens below (bg-card, text-ink-2, bg-primary, bg-lcd...), never
+ * raw palette colours, so both switches restyle the whole app. Set early by the script in
+ * index.html, then kept in sync by src/theme/ThemeProvider.tsx.
+ */
+
+/* ---- Accent ramps ---- */
+:root,
+[data-accent="amber"] {
+  --accent-50: #fffbeb;
+  --accent-100: #fef3c7;
+  --accent-300: #fcd34d;
+  --accent-400: #fbbf24;
+  --accent-500: #f59e0b;
+  --accent-600: #d97706;
+  --accent-700: #b45309;
+  --accent-800: #92400e;
+  --on-accent: #1f1302;
+}
+[data-accent="cyan"] {
+  --accent-50: #ecfeff;
+  --accent-100: #cffafe;
+  --accent-300: #67e8f9;
+  --accent-400: #22d3ee;
+  --accent-500: #06b6d4;
+  --accent-600: #0891b2;
+  --accent-700: #0e7490;
+  --accent-800: #155e75;
+  --on-accent: #03181d;
+}
+[data-accent="violet"] {
+  --accent-50: #f5f3ff;
+  --accent-100: #ede9fe;
+  --accent-300: #c4b5fd;
+  --accent-400: #a78bfa;
+  --accent-500: #8b5cf6;
+  --accent-600: #7c3aed;
+  --accent-700: #6d28d9;
+  --accent-800: #5b21b6;
+  --on-accent: #ffffff;
+}
+[data-accent="rose"] {
+  --accent-50: #fff1f2;
+  --accent-100: #ffe4e6;
+  --accent-300: #fda4af;
+  --accent-400: #fb7185;
+  --accent-500: #f43f5e;
+  --accent-600: #e11d48;
+  --accent-700: #be123c;
+  --accent-800: #9f1239;
+  --on-accent: #ffffff;
+}
+
+/* ---- Light (default) ---- */
+:root {
+  color-scheme: light;
+  --surface: #eef2f6;
+  --card: #ffffff;
+  --card-2: #f2f5f9;
+  --ink: #0b1220;
+  --ink-2: #475468;
+  --ink-3: #8592a6;
+  --line: #e1e7ef;
+
+  --primary: var(--accent-500);
+  --primary-text: var(--accent-700);
+  --primary-soft: var(--accent-50);
+  --on-primary: var(--on-accent);
+
+  /* The LCD panel stays dark in both modes, like a real meter display. */
+  --lcd-from: #172032;
+  --lcd-to: #0a0f19;
+  --lcd-line: rgb(255 255 255 / 0.08);
+  --lcd-dim: #7d8aa0;
+  --lcd-text: #e6edf6;
+  --lcd-glow: var(--accent-400);
+  --lcd-digit: var(--accent-300);
+
+  /* Category colours */
+  --cat-zap: #f59e0b;
+  --cat-flame: #3b82f6;
+  --cat-droplet: #06b6d4;
+  --cat-gauge: #8b5cf6;
+
+  --ok: #15803d;
+  --ok-soft: #ecfdf3;
+  --warn: #b45309;
+  --warn-soft: #fff7e6;
+  --danger: #e11d48;
+  --danger-soft: #fff1f3;
+
+  --shadow: 0 1px 2px rgb(11 18 32 / 0.04), 0 10px 30px -12px rgb(11 18 32 / 0.14);
+
+  /* Charts */
+  --chart-usage: var(--accent-500);
+  --chart-estimate: color-mix(in oklab, var(--accent-500) 38%, var(--card));
+  --chart-limit: #e11d48;
+  --chart-over: #e11d48;
+  --chart-track: #e7ecf3;
+  --chart-grid: #e9eef4;
+  --chart-axis: #cfd6e0;
+  --chart-tick: #8592a6;
+  --chart-cursor: rgb(11 18 32 / 0.04);
+}
+
+/* ---- Dark ---- */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #090d13;
+  --card: #111721;
+  --card-2: #18202c;
+  --ink: #e8eef6;
+  --ink-2: #a3b1c4;
+  --ink-3: #66768c;
+  --line: #212b38;
+
+  --primary: var(--accent-400);
+  --primary-text: var(--accent-300);
+  --primary-soft: color-mix(in oklab, var(--accent-500) 15%, transparent);
+  --on-primary: var(--on-accent);
+
+  --lcd-from: #141c2b;
+  --lcd-to: #070b12;
+  --lcd-line: rgb(255 255 255 / 0.07);
+
+  --ok: #4ade80;
+  --ok-soft: rgb(74 222 128 / 0.12);
+  --warn: #fbbf24;
+  --warn-soft: rgb(251 191 36 / 0.12);
+  --danger: #fb7185;
+  --danger-soft: rgb(251 113 133 / 0.13);
+
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.5);
+
+  --chart-usage: var(--accent-400);
+  --chart-estimate: color-mix(in oklab, var(--accent-400) 35%, var(--card));
+  --chart-limit: #fb7185;
+  --chart-over: #fb7185;
+  --chart-track: #1d2633;
+  --chart-grid: #1e2733;
+  --chart-axis: #2e3a4a;
+  --chart-tick: #7b889b;
+  --chart-cursor: rgb(255 255 255 / 0.04);
+}
+
+/* Violet and rose accents need white text on buttons in dark mode too. */
+[data-theme="dark"][data-accent="violet"],
+[data-theme="dark"][data-accent="rose"] {
+  --primary: var(--accent-500);
+}
+
+@theme inline {
+  --font-sans: "Outfit Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-lcd: "Share Tech Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-text: var(--primary-text);
+  --color-primary-soft: var(--primary-soft);
+  --color-on-primary: var(--on-primary);
+  --color-lcd-from: var(--lcd-from);
+  --color-lcd-to: var(--lcd-to);
+  --color-lcd-line: var(--lcd-line);
+  --color-lcd-dim: var(--lcd-dim);
+  --color-lcd-text: var(--lcd-text);
+  --color-lcd-glow: var(--lcd-glow);
+  --color-lcd-digit: var(--lcd-digit);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --shadow-card: var(--shadow);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-surface font-sans text-ink antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The dark meter display: soft top glow in the accent colour over faint scan lines. */
+.lcd-panel {
+  background:
+    radial-gradient(120% 70% at 85% -10%, color-mix(in oklab, var(--lcd-glow) 22%, transparent), transparent 60%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.028) 0 1px, transparent 1px 4px),
+    linear-gradient(160deg, var(--lcd-from), var(--lcd-to));
+  color: var(--lcd-text);
+}
+
+/* Glowing segment digits. */
+.lcd-digits {
+  font-family: var(--font-lcd);
+  color: var(--lcd-digit);
+  text-shadow: 0 0 18px color-mix(in oklab, var(--lcd-glow) 55%, transparent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gauge-arc {
+    transition: stroke-dashoffset 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+/*
+ * iOS Safari gives date inputs a native min-width and ignores width: 100%, so in a two-column
+ * grid they spill out of the card. Drop the native look, let it shrink, and keep the height of
+ * the other inputs (it collapses on iOS once appearance is none).
+ */
+input[type="date"],
+input[type="datetime-local"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 2.875rem;
+}
+input[type="date"]::-webkit-date-and-time-value,
+input[type="datetime-local"]::-webkit-date-and-time-value {
+  text-align: left;
+}
